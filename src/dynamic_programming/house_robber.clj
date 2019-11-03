@@ -1,30 +1,26 @@
 (ns dynamic-programming.house-robber)
 
-; Recurrence relation: f(i) =  max(values[i] + f(i-2), f(i-1))
-
-(defn tests
+(defn house-robber-tests
+  "Recurrence relation: f(i) =  max(v[i] + f(i-2), f(i-1))."
   [test-fn]
   (assert (= 0 (test-fn [])))
   (assert (= 1 (test-fn [1])))
   (assert (= 3 (test-fn [3 1])))
   (assert (= 12 (test-fn [3 10 3 1 2]))))
 
-(def memoize-hr
+(def memoized-house-robber
   (memoize (fn [values]
-             (let [n (count values)
-                   but-last (butlast values)]
-               (if (< n 1) 0
-                   (max (memoize-hr but-last)
-                        (+ (last values) (memoize-hr (butlast but-last)))))))))
+             (let [but-last (butlast values)]
+               (if (< (count values) 1) 0
+                   (max (memoized-house-robber but-last)
+                        (+ (last values) (memoized-house-robber (butlast but-last)))))))))
 
-(defn bottom-up-hr
+(defn bottom-up-house-robber
   [values]
-  (loop [n (-> values count dec)
+  (loop [v values
          a 0
          b 0]
-    (if (< n 0) b
-        (recur (dec n) b (max b (+ a (nth values n)))))))
+    (if (zero? (count v)) b
+        (recur (butlast v) b (max b (+ a (last v)))))))
 
-; TODO: lazy seq version
-
-(run! tests [memoize-hr bottom-up-hr])
+(run! house-robber-tests [memoized-house-robber bottom-up-house-robber])
