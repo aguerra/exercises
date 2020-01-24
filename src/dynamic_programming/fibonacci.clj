@@ -1,16 +1,8 @@
-(ns dynamic-programming.fibonacci)
-
-(defn fibonacci-tests
-  "Recurrence relation: f(i) = f(i-1) + f(i-2)."
-  [test-fn]
-  (assert (= 0 (test-fn 0)))
-  (assert (= 1 (test-fn 1)))
-  (assert (= 1 (test-fn 2)))
-  (assert (= 5 (test-fn 5)))
-  (assert (= 13 (test-fn 7)))
-  (assert (= 34 (test-fn 9))))
+(ns dynamic-programming.fibonacci
+  (:require [clojure.test :refer :all]))
 
 (def memoized-fib
+  "Recurrence relation: f(i) = f(i-1) + f(i-2)."
   (memoize (fn [n]
              (if (< n 2) n
                  (+ (memoized-fib (dec n)) (memoized-fib (- n 2)))))))
@@ -20,4 +12,14 @@
   (-> (map first (iterate (fn [[a b]] [b (+' a b)]) [0 1]))
       (nth n)))
 
-(run! fibonacci-tests [memoized-fib bottom-up-fib])
+(deftest tests
+  (are [n r] (= r (memoized-fib n) (bottom-up-fib n))
+    0     0
+    1     1
+    2     1
+    5     5
+    7    13
+    9    34
+   20  6765))
+
+(run-tests)
