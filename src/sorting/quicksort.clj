@@ -1,17 +1,17 @@
 (ns sorting.quicksort
   (:require [clojure.test :refer :all]))
 
-(defn quicksort
+(defn naive-quicksort
   [[pivot & rst :as coll]]
   (if pivot
     (let [less? #(< % pivot)]
-      (lazy-cat (quicksort (filter less? rst))
+      (lazy-cat (naive-quicksort (filter less? rst))
                 [pivot]
-                (quicksort (remove less? rst))))
+                (naive-quicksort (remove less? rst))))
     coll))
 
 (deftest tests
-  (are [coll sorted] (= sorted (quicksort coll))
+  (are [coll sorted] (= sorted (naive-quicksort coll))
     []              '()
     [1 2 3 4 5]     '(1 2 3 4 5)
     [5 4 3 2 1]     '(1 2 3 4 5)
