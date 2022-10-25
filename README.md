@@ -1,3 +1,3 @@
 # Exercises
 
-Programming exercises used in interviews.
+Programming exercises.
