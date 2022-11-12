@@ -6,7 +6,7 @@ Return all possible combinations of k numbers out of the range [1, n].
 
 
 def recursive(n, k):
-    """Return a list.
+    """Return combinations as a list.
 
     >>> recursive(3, 4)
     []
@@ -40,7 +40,7 @@ def recursive(n, k):
 
 
 def iterative(n, k):
-    """Return a generator.
+    """Return combinations as a generator.
 
     >>> list(iterative(3, 4))
     []

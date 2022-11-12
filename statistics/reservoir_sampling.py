@@ -8,7 +8,7 @@ import random
 
 
 def simple(iterable, n):
-    """Return a list. This is called Algorithm R.
+    """Return the sample as a list. This is called Algorithm R.
 
     The idea is to pick the first n items and after that choose the next ones
     based on a probability p of replacing the first ones. We can calculate p
