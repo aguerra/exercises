@@ -24,7 +24,7 @@ def recursive(iterable, k):
     """
     if not iterable:
         return None
-    pivot = iterable[0]
+    pivot = next(iter(iterable))
     less, greater = [], []
 
     for item in iterable:
