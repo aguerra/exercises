@@ -12,14 +12,14 @@ from itertools import pairwise
 from operator import le
 
 
-def _validate_gt_zero(d, key):
+def _is_gt_zero(d, key):
     value = d[key]
     is_valid = value > 0
     error = '' if is_valid else f'Value for {key} is <= 0'
     return is_valid, error
 
 
-def _validate_sorted(d, key):
+def _is_sorted(d, key):
     value = d[key]
     it = pairwise(value)
     is_valid = all(le(a, b) for a, b in it)
@@ -28,21 +28,21 @@ def _validate_sorted(d, key):
 
 
 validations = [
-    partial(_validate_sorted, key='a'),
-    partial(_validate_gt_zero, key='b')
+    partial(_is_sorted, key='a'),
+    partial(_is_gt_zero, key='b')
 ]
 
 
-def validate_dict(d, validations=validations):
-    """Return a tuple (is_valid, errors).
+def is_valid_dict(d, validations=validations):
+    """Return a tuple (boolean, errors).
 
-    >>> validate_dict({'a': [1, 2], 'b': 1})
+    >>> is_valid_dict({'a': [1, 2], 'b': 1})
     (True, [])
 
-    >>> validate_dict({'a': [1, 2, 42, 3], 'b': 1})
+    >>> is_valid_dict({'a': [1, 2, 42, 3], 'b': 1})
     (False, ['Value for a is not sorted'])
 
-    >>> validate_dict({'a': [1, 2, 42, 3], 'b': -1})
+    >>> is_valid_dict({'a': [1, 2, 42, 3], 'b': -1})
     (False, ['Value for a is not sorted', 'Value for b is <= 0'])
     """
     results = [f(d) for f in validations]
