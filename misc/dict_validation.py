@@ -13,14 +13,14 @@ from operator import le
 
 
 def _validate_gt_zero(d, key):
-    value = d.get(key)
+    value = d[key]
     is_valid = value > 0
     error = '' if is_valid else f'Value for {key} is <= 0'
     return is_valid, error
 
 
 def _validate_sorted(d, key):
-    value = d.get(key)
+    value = d[key]
     it = pairwise(value)
     is_valid = all(le(a, b) for a, b in it)
     error = '' if is_valid else f'Value for {key} is not sorted'
